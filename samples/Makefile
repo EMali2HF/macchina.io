@@ -7,4 +7,4 @@
 .PHONY: clean all
 
 clean all:
-	$(MAKE) -C SensorLog $(MAKECMDGOALS)
+	$(MAKE) -C SensorEvent $(MAKECMDGOALS)
