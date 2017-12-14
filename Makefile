@@ -79,7 +79,7 @@ clean all:
 #	$(MAKE) -C devices/Serial $(MAKECMDGOALS) $(MAKEARGS)
 #	$(MAKE) -C protocols $(MAKECMDGOALS) $(MAKEARGS)
 	$(MAKE) -C devices $(MAKECMDGOALS) $(MAKEARGS)
-#	$(MAKE) -C services $(MAKECMDGOALS) $(MAKEARGS)
+	$(MAKE) -C services $(MAKECMDGOALS) $(MAKEARGS)
 #	$(MAKE) -C webui $(MAKECMDGOALS) $(MAKEARGS)
 	$(MAKE) -C samples $(MAKECMDGOALS) $(MAKEARGS)
 
