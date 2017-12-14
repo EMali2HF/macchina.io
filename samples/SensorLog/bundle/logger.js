@@ -20,6 +20,8 @@ setInterval(
 		{
 			var sensor = sensors[id].sensor;
 
+			logger.debug("Logging '%s': %f", id, sensor.value());
+
 			db.session.execute('INSERT INTO sensorlog VALUES (?, ?, ?)',
 				ts,
 				id,

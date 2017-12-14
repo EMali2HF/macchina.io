@@ -38,11 +38,11 @@ class JSBridge_API TaggedBinaryReader
 public:
 	TaggedBinaryReader(v8::Isolate* pIsolate);
 		/// Creates the TaggedBinaryReader.
-		
+
 	~TaggedBinaryReader();
 		/// Destroys the TaggedBinaryReader.
-		
-	v8::Local<v8::Object> read(std::istream& istream);
+
+	const v8::Global<v8::Object>& read(std::istream& istream);
 		/// Reads a JavaScript object from the given stream.
 
 protected:
@@ -53,13 +53,13 @@ protected:
 
 		T value;
 		check(deserializer.deserialize(name, true, value));
-		_serializer.serialize(name, value); 
+		_serializer.serialize(name, value);
 	}
-	
+
 	std::string deserializeName(Poco::RemotingNG::BinaryDeserializer& deserializer);
 	Poco::UInt8 deserializeTypeTag(Poco::RemotingNG::BinaryDeserializer& deserializer);
 	void check(bool result);
-	
+
 private:
 	Serializer _serializer;
 	std::vector<TaggedBinarySerializer::ContainerType> _containerStack;

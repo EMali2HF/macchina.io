@@ -25,6 +25,7 @@
 #include "Poco/Delegate.h"
 #include "Poco/URIStreamOpener.h"
 #include "Poco/StreamCopier.h"
+#include "Poco/Logger.h"
 #include "libplatform/libplatform.h"
 #include <memory>
 
@@ -32,6 +33,20 @@
 namespace Poco {
 namespace JS {
 namespace Core {
+
+
+void logV8Event(const char* name, int event)
+{
+	static Poco::Logger& logger = Poco::Logger::get("V8");
+	logger.debug("%s (%d)", std::string(name), event);
+}
+
+
+void logV8FatalError(const char* location, const char* message)
+{
+	static Poco::Logger& logger = Poco::Logger::get("V8");
+	logger.fatal("%s: %s", std::string(location), std::string(message));
+}
 
 
 //
@@ -106,6 +121,9 @@ JSExecutor::~JSExecutor()
 void JSExecutor::init()
 {
 	_importStack.push_back(_sourceURI);
+
+	_pooledIso.isolate()->SetEventLogger(logV8Event);
+	_pooledIso.isolate()->SetFatalErrorHandler(logV8FatalError);
 }
 
 
@@ -311,6 +329,8 @@ void JSExecutor::callInContext(v8::Persistent<v8::Object>& jsObject, const std::
 	attachToCurrentThread();
 
 	v8::Isolate* pIsolate = _pooledIso.isolate();
+
+	v8::HandleScope handleScope(pIsolate);
 
 	v8::Local<v8::String> jsMethod = v8::String::NewFromUtf8(pIsolate, method.c_str());
 

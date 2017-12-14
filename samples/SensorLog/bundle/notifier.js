@@ -7,7 +7,7 @@ var sensors = require('sensors');
 function watchSensor(id, sensor)
 {
 	sensor.on('valueChanged', function(evt) {
-		logger.debug('Sensor "%s" value changed: %o', id, evt.data);
+		logger.debug('+ Sensor "%s" value changed: %o', id, evt);
 		webEventNotifier.notify('sensorlog.' + id, '' + evt.data);
 	});
 }
@@ -22,5 +22,5 @@ if (webEventNotifierRef)
 	for (var id in sensors)
 	{
 		watchSensor(id, sensors[id].sensor);
-	}	
+	}
 }
